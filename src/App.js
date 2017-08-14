@@ -1,44 +1,19 @@
-
 import cx from 'classnames';
 import React, { Component } from 'react';
 import Tree from 'react-ui-tree';
+import { fetchObjects } from './actions';
+import { connect } from 'react-redux';
 
 class App extends Component {
-
   componentWillMount = () => {
-    fetch('http://localhost:4080/api/v0/m/projects/?limit=10&childCount=true', {
-      credentials: 'include'
-    }).then(response => response.json())
-      .then(json => this.handleProjects(json.data));
-  };
-
-  handleProjects = data => {
-    const projects = data.map(p => {
-      const cc = p['omero:childCount'];
-      return {module: p.Name || "-",
-              id: p['@id'],
-              dtype: 'project',
-              leaf: cc === 0,
-              collapsed: true,
-              childCount: cc,
-              children: cc > 0 ? [{module: 'loading...', leaf: true}]: undefined}
-    });
-    this.setState({tree: {module: 'OMERO', children: projects}});
-  };
-
-  state = {
-    active: null,
-    tree: {
-            module: 'OMERO',
-            children: []
-          }
+    this.props.fetchObjects('projects');
   };
 
   renderNode = node => {
     return (
       <span
         className={cx('node', {
-          'is-active': node === this.state.active
+          'is-active': node === this.props.active
         })}
         onClick={this.onClickNode.bind(null, node)}
       >
@@ -50,10 +25,7 @@ class App extends Component {
   onClickNode = node => {
     if (node.childCount > 0 && node.children[0].module === 'loading...') {
       console.log('load...');
-      fetch('http://localhost:4080/api/v0/m/datasets/?childCount=true&project=' + node.id, {
-        credentials: 'include'
-      }).then(response => response.json())
-        .then(json => this.handleProjects(json.data));
+      // TODO: fetch children and update the state
     }
     this.setState({
       active: node
@@ -63,23 +35,23 @@ class App extends Component {
   render() {
     return (
       <div className="app">
-        <div>{this.state.active ? this.state.active.module : 'NONE'}</div>
+        <div>
+          {this.props.active ? this.props.active.module : 'NONE'}
+        </div>
         <div className="tree">
           <Tree
             paddingLeft={20}
-            tree={this.state.tree}
+            tree={this.props.tree}
             onChange={this.handleChange}
             isNodeCollapsed={this.isNodeCollapsed}
             renderNode={this.renderNode}
           />
         </div>
         <div className="inspector">
-          <h1>
-            Test....
-          </h1>
+          <h1>Test....</h1>
           <button onClick={this.updateTree}>update tree</button>
           <pre>
-            {JSON.stringify(this.state.tree, null, '  ')}
+            {JSON.stringify(this.props.tree, null, '  ')}
           </pre>
         </div>
       </div>
@@ -87,9 +59,9 @@ class App extends Component {
   }
 
   handleChange = tree => {
-    this.setState({
-      tree: tree
-    });
+    // this.setState({
+    //   tree: tree
+    // });
   };
 
   updateTree = () => {
@@ -101,4 +73,26 @@ class App extends Component {
   };
 }
 
-export default App;
+// Define how state from store gets mapped to
+// props of child component <ChannelList>
+const mapStateToProps = (state, ownProps) => {
+  return {
+    tree: state.tree,
+    active: state.active
+  };
+};
+
+// Define functions that modify store and are
+// passed as props of App so that it
+// can update store
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    fetchObjects: (dtype, id) => {
+      dispatch(fetchObjects(dtype, id));
+    }
+  };
+};
+
+const AppContainer = connect(mapStateToProps, mapDispatchToProps)(App);
+
+export default AppContainer;
