@@ -8,7 +8,6 @@ import { createStore, applyMiddleware } from 'redux';
 import treeApp from './reducers';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
-// import { fetchObjects } from './actions'
 
 let store = createStore(
   treeApp,

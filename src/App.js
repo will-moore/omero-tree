@@ -17,13 +17,13 @@ class App extends Component {
         })}
         onClick={this.onClickNode.bind(null, node)}
       >
-        {node.module} ({node.childCount})
+        {node.name} ({node.childCount})
       </span>
     );
   };
 
   onClickNode = node => {
-    if (node.childCount > 0 && node.children[0].module === 'loading...') {
+    if (node.childCount > 0 && node.children[0].name === 'loading...') {
       console.log('load...');
       // TODO: fetch children and update the state
     }
@@ -36,7 +36,7 @@ class App extends Component {
     return (
       <div className="app">
         <div>
-          {this.props.active ? this.props.active.module : 'NONE'}
+          {this.props.active ? this.props.active.name : 'NONE'}
         </div>
         <div className="tree">
           <Tree
@@ -65,11 +65,11 @@ class App extends Component {
   };
 
   updateTree = () => {
-    const { tree } = this.state;
-    tree.children.push({ module: 'test' });
-    this.setState({
-      tree: tree
-    });
+    // const { tree } = this.state;
+    // tree.children.push({ name: 'test' });
+    // this.setState({
+    //   tree: tree
+    // });
   };
 }
 

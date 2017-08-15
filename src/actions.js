@@ -10,6 +10,8 @@ const PARENT_TYPES = {
   image: 'dataset'
 };
 
+// Get JSON from OMERO api
+// TODO: don't hard-code limit=10
 export function fetchObjects(dtype, parentId) {
   return function(dispatch) {
     let url = `http://localhost:4080/api/v0/m/${dtype}/?limit=10&childCount=true`;
@@ -17,6 +19,7 @@ export function fetchObjects(dtype, parentId) {
       url += `&${PARENT_TYPES[dtype]}=${parentId}`;
     }
     fetch(url, {
+      // Allows CORS
       credentials: 'include'
     })
       .then(response => response.json())
