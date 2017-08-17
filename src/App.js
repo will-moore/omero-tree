@@ -25,7 +25,7 @@ class App extends Component {
   onClickNode = node => {
     if (node.childCount > 0 && node.children[0].name === 'loading...') {
       console.log('load...');
-      // TODO: fetch children and update the state
+      this.props.fetchObjects('datasets', node.id);
     }
     this.setState({
       active: node
@@ -87,8 +87,8 @@ const mapStateToProps = (state, ownProps) => {
 // can update store
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    fetchObjects: (dtype, id) => {
-      dispatch(fetchObjects(dtype, id));
+    fetchObjects: (dtype, parentId) => {
+      dispatch(fetchObjects(dtype, parentId));
     }
   };
 };

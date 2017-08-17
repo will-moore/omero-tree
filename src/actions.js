@@ -1,13 +1,13 @@
 export const FETCH_OBJECTS = 'FETCH_OBJECTS';
 export const RECEIVE_OBJECTS = 'RECIEVE_OBJECTS';
 
-export function receiveObjects(json) {
-  return { type: RECEIVE_OBJECTS, json };
+export function receiveObjects(json, parentType, parentId) {
+  return { type: RECEIVE_OBJECTS, json, parentType, parentId };
 }
 
 const PARENT_TYPES = {
-  dataset: 'project',
-  image: 'dataset'
+  datasets: 'project',
+  images: 'dataset'
 };
 
 // Get JSON from OMERO api
@@ -23,6 +23,8 @@ export function fetchObjects(dtype, parentId) {
       credentials: 'include'
     })
       .then(response => response.json())
-      .then(json => dispatch(receiveObjects(json)));
+      .then(json =>
+        dispatch(receiveObjects(json, PARENT_TYPES[dtype], parentId))
+      );
   };
 }
