@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 class App extends Component {
   componentWillMount = () => {
-    this.props.fetchObjects('projects');
+    this.props.fetchObjects('root');
   };
 
   renderNode = node => {
@@ -23,9 +23,9 @@ class App extends Component {
   };
 
   onClickNode = node => {
-    if (node.childCount > 0 && node.children[0].name === 'loading...') {
+    if (node.childCount > 0 && !node.loaded) {
       console.log('load...');
-      this.props.fetchObjects('datasets', node.id);
+      this.props.fetchObjects(node.dtype, node.id);
     }
     this.setState({
       active: node
