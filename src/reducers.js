@@ -48,6 +48,7 @@ const traverse = (node, dtype, id, newChildren) => {
 // We process the 'data' list and return json for tree
 const processObjects = (action, tree) => {
   // Create state for list of nodes
+  console.log('action.json', action.json);
   const nodes = action.json.data.map(p => {
     const cc = p['omero:childCount'];
     const dtype = p['@type'].split('#')[1].toLowerCase();
@@ -65,7 +66,7 @@ const processObjects = (action, tree) => {
   // If the nodes are children of a parent...
   switch (action.parentType) {
     // case 'root':
-    //   return { name: 'OMERO', children: nodes };
+    // return { name: 'OMERO', children: nodes };
     case 'project':
       // const pid = action.parentId;
       // // find the parent node and add children to it
@@ -94,6 +95,7 @@ const processObjects = (action, tree) => {
 export default function treeApp(state = initialState, action) {
   switch (action.type) {
     case RECEIVE_OBJECTS:
+      console.log(RECEIVE_OBJECTS, '....');
       const tree = processObjects(action, state.tree);
       return Object.assign({}, state, { tree });
     default:

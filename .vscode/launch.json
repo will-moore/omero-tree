@@ -14,6 +14,26 @@
             "name": "Attach to Chrome",
             "port": 9222,
             "webRoot": "${workspaceRoot}"
+        },
+        {
+            "name": "Tests",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
+            "stopOnEntry": false,
+            "args": ["--runInBand"],
+            "cwd": "${workspaceRoot}",
+            "preLaunchTask": null,
+            "runtimeExecutable": null,
+            "runtimeArgs": [
+                "--nolazy"
+            ],
+            "env": {
+                "NODE_ENV": "development"
+            },
+            "externalConsole": false,
+            "sourceMaps": false,
+            "outDir": null
         }
     ]
 }
