@@ -1,15 +1,23 @@
 import React, { Component } from 'react';
 import Tree from './Tree';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import AppBar from 'material-ui/AppBar';
+import Drawer from 'material-ui/Drawer';
 
 class App extends Component {
   render() {
     return (
-      <div>
-        <h1>OMERO</h1>
+      <MuiThemeProvider>
         <div>
-          <Tree />
+          <AppBar
+            title="OMERO"
+            iconClassNameRight="muidocs-icon-navigation-expand-more"
+          />
+          <div>
+            <Tree />
+          </div>
         </div>
-      </div>
+      </MuiThemeProvider>
     );
   }
 }
