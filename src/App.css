@@ -1,8 +1,23 @@
-
 body {
-  font-family: Verdana, Geneva, Tahoma, sans-serif
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin: 0;
 }
 
 .is-active {
-  background-color: red
+  background-color: red;
+}
+
+.columnContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.leftPanel,
+.rightPanel {
+  width: 300px;
+}
+
+.centrePanel {
+  flex: 1;
 }

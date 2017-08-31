@@ -40,9 +40,6 @@ class App extends Component {
   render() {
     return (
       <div className="app">
-        <div>
-          {this.props.active ? this.props.active.name : 'NONE'}
-        </div>
         <div className="tree">
           <Tree
             paddingLeft={20}
@@ -51,13 +48,6 @@ class App extends Component {
             isNodeCollapsed={this.isNodeCollapsed}
             renderNode={this.renderNode}
           />
-        </div>
-        <div className="inspector">
-          <h1>Test....</h1>
-          <button onClick={this.updateTree}>update tree</button>
-          <pre>
-            {JSON.stringify(this.props.tree, null, '  ')}
-          </pre>
         </div>
       </div>
     );
