@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Tree from './Tree';
+import GroupUser from './GroupUser';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 
@@ -12,6 +13,7 @@ class App extends Component {
             title="OMERO"
             iconClassNameRight="muidocs-icon-navigation-expand-more"
           />
+          <GroupUser />
           <div className="columnContainer">
             <div className="leftPanel">
               <Tree />

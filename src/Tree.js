@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 class App extends Component {
   componentWillMount = () => {
-    this.props.fetchObjects('root');
+    // this.props.fetchObjects('root');
   };
 
   renderNode = node => {

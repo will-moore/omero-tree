@@ -29,3 +29,26 @@ export function fetchObjects(dtype, parentId) {
       .then(json => dispatch(receiveObjects(json, dtype, parentId)));
   };
 }
+
+// Handling Loading of GROUPS for the current USER
+
+// TODO: load this or get it from login
+const USER_ID = 3;
+
+export const RECEIVE_GROUPS = 'RECEIVE_GROUPS';
+
+export function fetchGroups() {
+  return function(dispatch) {
+    const url = `http://localhost:4080/api/v0/m/experimenters/${USER_ID}/experimentergroups/`;
+    fetch(url, {
+      credentials: 'include'
+    })
+      .then(response => response.json())
+      .then(json => dispatch(receiveGroups(json)));
+  };
+}
+
+export function receiveGroups(json) {
+  console.log('receiveGroups', json);
+  return { type: RECEIVE_GROUPS, json };
+}
