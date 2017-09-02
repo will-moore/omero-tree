@@ -1,19 +1,3 @@
-import {
-  RECEIVE_OBJECTS,
-  RECEIVE_GROUPS,
-  RECEIVE_EVENT_CONTEXT
-} from './actions';
-
-const initialState = {
-  active: null,
-  groups: [],
-  tree: {
-    name: 'OMERO',
-    children: []
-  },
-  eventContext: {}
-};
-
 const traverse = (node, dtype, id, newChildren) => {
   let extra = {};
   // console.log(node.dtype === 'dataset', node.dtype == 'dataset', node, dtype, id, newChildren);
@@ -52,7 +36,7 @@ const traverse = (node, dtype, id, newChildren) => {
 
 // Handle the json response from e.g. /api/m/projects/
 // We process the 'data' list and return json for tree
-const processObjects = (action, tree) => {
+export const processObjects = (action, tree) => {
   // Create state for list of nodes
   console.log('action.json', action.json);
   const nodes = action.json.data.map(p => {
@@ -96,22 +80,3 @@ const processObjects = (action, tree) => {
       return { name: 'OMERO', children: nodes };
   }
 };
-
-// Our main App reducer. Handles ALL state changes
-export default function treeApp(state = initialState, action) {
-  switch (action.type) {
-    case RECEIVE_OBJECTS:
-      console.log(RECEIVE_OBJECTS, '....');
-      const tree = processObjects(action, state.tree);
-      return Object.assign({}, state, { tree });
-    case RECEIVE_GROUPS:
-      console.log(RECEIVE_GROUPS, '....');
-      const groups = action.json.data;
-      return Object.assign({}, state, { groups });
-    case RECEIVE_EVENT_CONTEXT:
-      console.log(RECEIVE_EVENT_CONTEXT, '....');
-      return Object.assign({}, state, { eventContext: action.json });
-    default:
-      return state;
-  }
-}

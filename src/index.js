@@ -5,7 +5,7 @@ import './App.css';
 import AppContainer from './App';
 import registerServiceWorker from './registerServiceWorker';
 import { createStore, applyMiddleware } from 'redux';
-import treeApp from './reducers';
+import treeApp from './reducers/';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 
