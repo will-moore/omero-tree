@@ -1,4 +1,8 @@
-import { RECEIVE_OBJECTS, RECEIVE_GROUPS } from './actions';
+import {
+  RECEIVE_OBJECTS,
+  RECEIVE_GROUPS,
+  RECEIVE_EVENT_CONTEXT
+} from './actions';
 
 const initialState = {
   active: null,
@@ -6,7 +10,8 @@ const initialState = {
   tree: {
     name: 'OMERO',
     children: []
-  }
+  },
+  eventContext: {}
 };
 
 const traverse = (node, dtype, id, newChildren) => {
@@ -103,6 +108,9 @@ export default function treeApp(state = initialState, action) {
       console.log(RECEIVE_GROUPS, '....');
       const groups = action.json.data;
       return Object.assign({}, state, { groups });
+    case RECEIVE_EVENT_CONTEXT:
+      console.log(RECEIVE_EVENT_CONTEXT, '....');
+      return Object.assign({}, state, { eventContext: action.json });
     default:
       return state;
   }

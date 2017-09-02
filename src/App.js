@@ -2,17 +2,14 @@ import React, { Component } from 'react';
 import Tree from './Tree';
 import GroupUser from './GroupUser';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import AppBar from 'material-ui/AppBar';
+import Header from './Header';
 
 class App extends Component {
   render() {
     return (
       <MuiThemeProvider>
         <div>
-          <AppBar
-            title="OMERO"
-            iconClassNameRight="muidocs-icon-navigation-expand-more"
-          />
+          <Header />
           <GroupUser />
           <div className="columnContainer">
             <div className="leftPanel">

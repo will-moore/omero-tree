@@ -21,7 +21,11 @@ class GroupUser extends Component {
 
     return (
       <div>
-        <DropDownMenu maxHeight={300} value={1} onChange={this.handleChange}>
+        <DropDownMenu
+          maxHeight={300}
+          value={this.props.groupId}
+          onChange={this.handleChange}
+        >
           {items}
         </DropDownMenu>
       </div>
@@ -33,7 +37,8 @@ class GroupUser extends Component {
 // props of child component <ChannelList>
 const mapStateToProps = (state, ownProps) => {
   return {
-    groups: state.groups
+    groups: state.groups,
+    groupId: state.eventContext.groupId
   };
 };
 

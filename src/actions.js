@@ -30,8 +30,27 @@ export function fetchObjects(dtype, parentId) {
   };
 }
 
-// Handling Loading of GROUPS for the current USER
+// Loading of EVENT_CONTEXT
 
+export const RECEIVE_EVENT_CONTEXT = 'RECEIVE_EVENT_CONTEXT';
+
+export function fetchEventContext() {
+  return function(dispatch) {
+    const url = `http://localhost:4080/api/v0/eventcontext/`;
+    fetch(url, {
+      credentials: 'include'
+    })
+      .then(response => response.json())
+      .then(json => dispatch(receiveEventContext(json)));
+  };
+}
+
+export function receiveEventContext(json) {
+  console.log('receiveEventContext', json);
+  return { type: RECEIVE_EVENT_CONTEXT, json };
+}
+
+// Handling Loading of GROUPS for the current USER
 // TODO: load this or get it from login
 const USER_ID = 3;
 
