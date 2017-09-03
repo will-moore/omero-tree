@@ -14,10 +14,15 @@ const CHILD_TYPES = {
 // Get JSON from OMERO api
 // TODO: don't hard-code limit=10
 export function fetchObjects(dtype, parentId) {
-  return function(dispatch) {
+  return function(dispatch, getState) {
+    const ctx = getState().eventContext;
+    const groupId = ctx.groupId;
+    const userId = ctx.userId;
+
+    // Build URL from state
     let url = `http://localhost:4080/api/v0/m/${CHILD_TYPES[
       dtype
-    ]}/?limit=10&childCount=true`;
+    ]}/?limit=10&childCount=true&group=${groupId}&owner=${userId}`;
     if (parentId) {
       url += `&${dtype}=${parentId}`;
     }
@@ -35,13 +40,19 @@ export function fetchObjects(dtype, parentId) {
 export const RECEIVE_EVENT_CONTEXT = 'RECEIVE_EVENT_CONTEXT';
 
 export function fetchEventContext() {
-  return function(dispatch) {
+  return function(dispatch, getState) {
     const url = `http://localhost:4080/api/v0/eventcontext/`;
     fetch(url, {
       credentials: 'include'
     })
       .then(response => response.json())
-      .then(json => dispatch(receiveEventContext(json)));
+      .then(json => {
+        dispatch(receiveEventContext(json));
+
+        // Now we can do initial FETCH_OBJECTS for the current group & user
+        // We call with getState, so that we can use state to build url
+        fetchObjects('root')(dispatch, getState);
+      });
   };
 }
 
