@@ -1,3 +1,5 @@
+import { RECEIVE_OBJECTS } from '../actions';
+
 const traverse = (node, dtype, id, newChildren) => {
   let extra = {};
   // console.log(node.dtype === 'dataset', node.dtype == 'dataset', node, dtype, id, newChildren);
@@ -36,7 +38,7 @@ const traverse = (node, dtype, id, newChildren) => {
 
 // Handle the json response from e.g. /api/m/projects/
 // We process the 'data' list and return json for tree
-export const processObjects = (action, tree) => {
+const processObjects = (action, tree) => {
   // Create state for list of nodes
   console.log('action.json', action.json);
   const nodes = action.json.data.map(p => {
@@ -78,5 +80,20 @@ export const processObjects = (action, tree) => {
     default:
       // No parent - set data for whole tree
       return { name: 'OMERO', children: nodes };
+  }
+};
+
+const initialTree = {
+  name: 'OMERO',
+  children: []
+};
+
+export const tree = (state = initialTree, action) => {
+  switch (action.type) {
+    case RECEIVE_OBJECTS:
+      const tree = processObjects(action, state.tree);
+      return tree;
+    default:
+      return state;
   }
 };
