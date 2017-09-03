@@ -3,18 +3,9 @@ import {
   RECEIVE_GROUPS,
   RECEIVE_EVENT_CONTEXT
 } from '../actions';
+import { combineReducers } from 'redux';
 
 import { processObjects } from './tree';
-
-const initialState = {
-  active: null,
-  groups: [],
-  tree: {
-    name: 'OMERO',
-    children: []
-  },
-  eventContext: {}
-};
 
 const initialTree = {
   name: 'OMERO',
@@ -53,10 +44,8 @@ const eventContext = (state = {}, action) => {
 };
 
 // Our main App reducer. Handles ALL state changes
-export default function treeApp(state = initialState, action) {
-  return {
-    tree: tree(state.tree, action),
-    groups: groups(state.groups, action),
-    eventContext: eventContext(state.eventContext, action)
-  };
-}
+export default combineReducers({
+  tree,
+  groups,
+  eventContext
+});
