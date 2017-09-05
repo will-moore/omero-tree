@@ -12,7 +12,6 @@ class GroupUser extends Component {
   handleChange = () => {};
 
   render() {
-    console.log(this.props.groups);
     const items = this.props.groups.map(g => {
       return (
         <MenuItem value={g['@id']} key={g['@id']} primaryText={g['Name']} />

@@ -57,7 +57,6 @@ export function fetchEventContext() {
 }
 
 export function receiveEventContext(json) {
-  console.log('receiveEventContext', json);
   return { type: RECEIVE_EVENT_CONTEXT, json };
 }
 
@@ -79,6 +78,5 @@ export function fetchGroups() {
 }
 
 export function receiveGroups(json) {
-  console.log('receiveGroups', json);
   return { type: RECEIVE_GROUPS, json };
 }

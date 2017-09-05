@@ -6,9 +6,6 @@ import { connect } from 'react-redux';
 
 class Header extends Component {
   componentWillReceiveProps = nextProps => {
-    console.log('next', nextProps);
-    console.log('props', this.props);
-
     const userId = nextProps.eventContext.userId;
 
     // If we now have a userId in hand (and it's changed),
