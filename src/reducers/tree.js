@@ -2,7 +2,7 @@ import { RECEIVE_OBJECTS } from '../actions';
 
 const traverse = (node, dtype, id, newChildren) => {
   let extra = {};
-  // console.log(node.dtype === 'dataset', node.dtype == 'dataset', node, dtype, id, newChildren);
+  console.trace('traverse', node, dtype, id, newChildren);
   if (node.dtype === 'project') {
     if (dtype === 'project' && node.id === id) {
       // We found the project - update children
@@ -91,7 +91,7 @@ const initialTree = {
 export const tree = (state = initialTree, action) => {
   switch (action.type) {
     case RECEIVE_OBJECTS:
-      const tree = processObjects(action, state.tree);
+      const tree = processObjects(action, state);
       return tree;
     default:
       return state;

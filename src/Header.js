@@ -1,10 +1,28 @@
 import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
-import { fetchEventContext } from './actions';
+import { fetchEventContext, fetchObjects } from './actions';
 import { connect } from 'react-redux';
 
 class Header extends Component {
+  componentWillReceiveProps = nextProps => {
+    console.log('next', nextProps);
+    console.log('props', this.props);
+
+    const userId = nextProps.eventContext.userId;
+
+    // If we now have a userId in hand (and it's changed),
+    // Need to refresh the objects... NB: objects will be loaded for current user & group
+    if (
+      userId &&
+      this.props.eventContxt &&
+      (userId !== this.props.eventContxt.userId ||
+        nextProps.eventContext.groupId !== this.props.eventContext.groupId)
+    ) {
+      this.props.fetchObjects();
+    }
+  };
+
   componentWillMount = () => {
     this.props.fetchEventContext();
   };
@@ -35,6 +53,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fetchEventContext: () => {
       dispatch(fetchEventContext());
+    },
+    fetchObjects: () => {
+      dispatch(fetchObjects('root'));
     }
   };
 };
