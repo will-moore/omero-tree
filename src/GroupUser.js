@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { fetchGroups } from './actions';
+import { fetchGroups, fetchObjects, setGroupId } from './actions';
 import { connect } from 'react-redux';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -9,7 +9,20 @@ class GroupUser extends Component {
     this.props.fetchGroups();
   };
 
-  handleChange = () => {};
+  componentWillReceiveProps = nextProps => {
+    const groupId = nextProps.groupId;
+
+    // If we have a groupId in hand (and it's changed),
+    // Need to refresh the objects... NB: objects will be loaded for current user & group
+    if (groupId && groupId !== this.props.groupId) {
+      this.props.fetchObjects('root');
+    }
+  };
+
+  handleChange = (event, index, value) => {
+    console.log('handleChange', value);
+    this.props.setGroupId(value);
+  };
 
   render() {
     const items = this.props.groups.map(g => {
@@ -37,7 +50,7 @@ class GroupUser extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     groups: state.groups,
-    groupId: state.eventContext.groupId
+    groupId: state.groupId
   };
 };
 
@@ -48,6 +61,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fetchGroups: () => {
       dispatch(fetchGroups());
+    },
+    fetchObjects: parent => {
+      dispatch(fetchObjects(parent));
+    },
+    setGroupId: groupId => {
+      dispatch(setGroupId(groupId));
     }
   };
 };

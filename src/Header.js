@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
-import { fetchEventContext, fetchObjects } from './actions';
+import { fetchEventContext, setGroupId } from './actions';
 import { connect } from 'react-redux';
 
 class Header extends Component {
@@ -12,11 +12,12 @@ class Header extends Component {
     // Need to refresh the objects... NB: objects will be loaded for current user & group
     if (
       userId &&
-      this.props.eventContxt &&
-      (userId !== this.props.eventContxt.userId ||
+      this.props.eventContext &&
+      (userId !== this.props.eventContext.userId ||
         nextProps.eventContext.groupId !== this.props.eventContext.groupId)
     ) {
-      this.props.fetchObjects();
+      this.props.setGroupId(nextProps.eventContext.groupId);
+      // this.props.fetchObjects();
     }
   };
 
@@ -48,12 +49,15 @@ const mapStateToProps = (state, ownProps) => {
 // can update store
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    setGroupId: groupId => {
+      dispatch(setGroupId(groupId));
+    },
     fetchEventContext: () => {
       dispatch(fetchEventContext());
-    },
-    fetchObjects: () => {
-      dispatch(fetchObjects('root'));
     }
+    // fetchObjects: () => {
+    //   dispatch(fetchObjects('root'));
+    // }
   };
 };
 

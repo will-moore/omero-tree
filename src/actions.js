@@ -1,5 +1,6 @@
 export const FETCH_OBJECTS = 'FETCH_OBJECTS';
 export const RECEIVE_OBJECTS = 'RECIEVE_OBJECTS';
+export const SET_GROUP_ID = 'SET_CURRENT_GROUP';
 
 export function receiveObjects(json, parentType, parentId) {
   return { type: RECEIVE_OBJECTS, json, parentType, parentId };
@@ -16,7 +17,7 @@ const CHILD_TYPES = {
 export function fetchObjects(dtype, parentId) {
   return function(dispatch, getState) {
     const ctx = getState().eventContext;
-    const groupId = ctx.groupId;
+    const groupId = getState().groupId;
     const userId = ctx.userId;
 
     // Build URL from state
@@ -51,7 +52,7 @@ export function fetchEventContext() {
 
         // Now we can do initial FETCH_OBJECTS for the current group & user
         // We call with getState, so that we can use state to build url
-        fetchObjects('root')(dispatch, getState);
+        // fetchObjects('root')(dispatch, getState);
       });
   };
 }
@@ -79,4 +80,9 @@ export function fetchGroups() {
 
 export function receiveGroups(json) {
   return { type: RECEIVE_GROUPS, json };
+}
+
+export function setGroupId(groupId) {
+  console.log('groupId', groupId);
+  return { type: SET_GROUP_ID, groupId };
 }
