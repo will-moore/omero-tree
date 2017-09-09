@@ -15,9 +15,15 @@ body {
 
 .leftPanel,
 .rightPanel {
-  width: 300px;
+  width: 350px;
 }
 
 .centrePanel {
   flex: 1;
+}
+
+.app {
+  height: calc(100% - 130px);
+  overflow: scroll;
+  position: absolute;
 }
