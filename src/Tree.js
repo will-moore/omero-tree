@@ -15,16 +15,19 @@ class App extends Component {
         className={cx('node', {
           'is-active': node === this.props.active
         })}
-        onClick={this.onClickNode.bind(null, node)}
+        onClick={event => {
+          console.log('ARGS', event.type, arguments);
+          this.onClickNode(event, node);
+        }}
       >
         {node.name} ({node.childCount})
       </span>
     );
   };
 
-  onClickNode = node => {
+  onClickNode = (event, node) => {
+    console.log('onClickNode...', event.shiftKey);
     if (node.childCount > 0 && !node.loaded) {
-      console.log('load...');
       this.props.fetchObjects(node.dtype, node.id);
     }
     this.setState({
@@ -33,6 +36,7 @@ class App extends Component {
   };
 
   handleChange = tree => {
+    console.log(arguments);
     // Called on any change, e.g expand/select etc.
     console.log('handleChange');
   };
