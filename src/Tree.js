@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import React, { Component } from 'react';
 import Tree from 'react-ui-tree';
-import { fetchObjects } from './actions';
+import { fetchObjects, clickTreeNode } from './actions';
 import { connect } from 'react-redux';
 
 class App extends Component {
@@ -27,12 +27,15 @@ class App extends Component {
 
   onClickNode = (event, node) => {
     console.log('onClickNode...', event.shiftKey);
+    this.props.clickTreeNode(event, node);
     if (node.childCount > 0 && !node.loaded) {
       this.props.fetchObjects(node.dtype, node.id);
     }
-    this.setState({
-      active: node
-    });
+    this.setState(
+      {
+        // fetchObjects / display of result only works if we setState() ?!?!?
+      }
+    );
   };
 
   handleChange = tree => {
@@ -82,6 +85,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fetchObjects: (dtype, parentId) => {
       dispatch(fetchObjects(dtype, parentId));
+    },
+    clickTreeNode: (event, node) => {
+      dispatch(clickTreeNode(event, node));
     }
   };
 };

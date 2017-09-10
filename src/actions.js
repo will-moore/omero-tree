@@ -86,3 +86,11 @@ export function setGroupId(groupId) {
   console.log('groupId', groupId);
   return { type: SET_GROUP_ID, groupId };
 }
+
+// Handle clicking on Tree Nodes...
+
+export const CLICK_TREE_NODE = 'CLICK_TREE_NODE';
+
+export function clickTreeNode(event, node) {
+  return { type: CLICK_TREE_NODE, event, node };
+}
