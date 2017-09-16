@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { getSelectedObjects } from './reducers';
 
 class RightPanel extends Component {
   render() {
@@ -20,7 +21,7 @@ class RightPanel extends Component {
 // props of child component <ChannelList>
 const mapStateToProps = (state, ownProps) => {
   return {
-    selectedObjects: state.selectedObjects
+    selectedObjects: getSelectedObjects(state)
   };
 };
 

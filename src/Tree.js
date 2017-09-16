@@ -28,6 +28,7 @@ class App extends Component {
   onClickNode = (event, node) => {
     console.log('onClickNode...', event.shiftKey);
     this.props.clickTreeNode(event, node);
+
     if (node.childCount > 0 && !node.loaded) {
       this.props.fetchObjects(node.dtype, node.id);
     }
